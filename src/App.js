@@ -1,62 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component, useEffect } from 'react';
+import AllRast from './components/allRast.js';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import{Switch} from 'react';
+import FindId from './components/findId.js';
+import EditRast from './components/editRast.js';
+import react from 'react';
 
 
 class App extends Component {
+  render() { 
 
-  constructor(props) {
-    super(props);
-   
-    this.state ={
-      items:[],
-      isLoaded:false,
-    }
-  }
-  
-
-        componentDidMount(){
-          fetch('http://localhost:8080/locations')
-            .then(res => res.json())
-            .then(json => {
-              this.setState({
-                isLoaded: true,
-                items: json,
-              })
-              
-           
-            }
+  return(
+      <Routes>
+        <Switch>
+            
+            {/* <Route path='/locations' exact={true} component={AllRast} />
+            <Route path='/locations/:id' component={EditRast} /> */}
+            <Route path='/' component={FindId} />
+      </Switch>
         
-        
-        
-     
-  );
-}
+      </Routes >
 
-
-render() {
-  const { isLoaded, items} = this.state;
-  
-  if (!isLoaded) {
-    return<div>Loading...</div>;
-  }
-  
-
-
-  return (
-  <div className="App">
-  <ul>
-    {items.map(item =>(
-      <li key={item.id}>
-        ort: {item.ort} | pLZ: {item.pLZ} | strasse: {item.strasse} | hausnummer: {item.hausnummer}
-
-        </li>
-
-    ))}
-
-  </ul>
-
-  </div>
-);
-
+    )
 }
 }
 
