@@ -1,28 +1,23 @@
-import React, { Component, useEffect } from 'react';
-import AllRast from './components/allRast.js';
+import React, { Component } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import{Switch} from 'react';
-import FindId from './components/findId.js';
+import AllRast from './components/allRast.js';
 import EditRast from './components/editRast.js';
-import react from 'react';
-
+import FindId from './components/findId.js';
 
 class App extends Component {
-  render() { 
+  render() {
 
-  return(
-      <Routes>
-        <Switch>
-            
-            {/* <Route path='/locations' exact={true} component={AllRast} />
-            <Route path='/locations/:id' component={EditRast} /> */}
-            <Route path='/' component={FindId} />
-      </Switch>
-        
-      </Routes >
-
+    return (
+      <BrowserRouter>
+        <Routes>
+          { /* Aufpassen: siehe Syntax mit element, component ist nicht das gleiche */}
+          <Route path='/locations' exact={true} element={<AllRast />} />
+          <Route path='/locations/:id' element={<EditRast />} />
+          <Route path='/' element={<FindId />} />
+        </Routes >
+      </BrowserRouter>
     )
-}
+  }
 }
 
 export default App;
