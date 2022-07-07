@@ -9,10 +9,17 @@ function Loc() {
   const [strasse, setStrasse] = useState("");
   const [hausnummer, setHausnummer] = useState("");
 
-  const [location, getLocation] = useState([]);
+  //const [location, getLocation] = useState([]);
   const [newLocation, setNewLocation] = useState([]);
 
   const [locationList, setLocationList] = useState([]);
+
+
+  const getLocations = () => {
+    Axios.get("http://localhost:8080/locations").then((response) => {
+      setLocationList(response.data);
+    });
+  };
 
   const addLocation = () => {
     Axios.post("http://localhost:8080/locations", {
@@ -36,18 +43,14 @@ function Loc() {
     });
   };
 
-  const getLocations = () => {
-    Axios.get("http://localhost:8080/locations").then((response) => {
-      setLocationList(response.data);
-    });
-  };
+  
 
   const updateLocation = (id) => {
     Axios.put(`http://localhost:8080/locations/${id}`, { location: newLocation, id: id }).then(
       (response) => {
         setLocationList(
           locationList.map((val) => {
-            return val.id == id
+            return val.id === id
               ? {
                   id: val.id,
                   ort: val.ort,
@@ -66,7 +69,7 @@ function Loc() {
     Axios.delete(`http://localhost:8080/locations/${id}`).then((response) => {
       setLocationList(
         locationList.filter((val) => {
-          return val.id != id;
+          return val.id !== id;
         })
       );
     });
@@ -107,7 +110,7 @@ function Loc() {
         <button onClick={addLocation}>Add Location</button>
       </div>
       <div className="location">
-        <button onClick={getLocation}>Show Location</button>
+        <button onClick={getLocations}>Show Location</button>
 
         {locationList.map((val, key) => {
           return (
