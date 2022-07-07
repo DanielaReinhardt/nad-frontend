@@ -72,7 +72,7 @@ class EditRast extends React.Component {
             </FormGroup>
             <FormGroup>
                 <Label for="strasse">PLZ</Label>
-                <Input type="text" name="Strasse" value={item.Strasse || ''}
+                <Input type="text" name="Strasse" value={item.strasse || ''}
                     onChange={this.handleChange} autoComplete="strasse" />
             </FormGroup>
             <FormGroup>
