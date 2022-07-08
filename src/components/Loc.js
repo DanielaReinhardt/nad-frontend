@@ -1,4 +1,4 @@
-// import "./App.css";
+//import "./App.css";
 import { useState } from "react";
 import Axios from "axios";
 
@@ -9,8 +9,6 @@ function Loc() {
   const [strasse, setStrasse] = useState("");
   const [hausnummer, setHausnummer] = useState("");
 
-  //const [location, getLocation] = useState([]);
-  const [newLocation, setNewLocation] = useState([]);
 
   const [locationList, setLocationList] = useState([]);
 
@@ -43,27 +41,7 @@ function Loc() {
     });
   };
 
-  
 
-  const updateLocation = (id) => {
-    Axios.put(`http://localhost:8080/locations/${id}`, { location: newLocation, id: id }).then(
-      (response) => {
-        setLocationList(
-          locationList.map((val) => {
-            return val.id === id
-              ? {
-                  id: val.id,
-                  ort: val.ort,
-                  pLZ: val.pLZ,
-                  strasse: val.strasse,
-                  hausnummer: val.hausnummer,                  
-                }
-              : val;
-          })
-        );
-      }
-    );
-  };
 
   const deleteLocation = (id) => {
     Axios.delete(`http://localhost:8080/locations/${id}`).then((response) => {
@@ -75,64 +53,123 @@ function Loc() {
     });
   };
 
+
+  const updateLocation = (id) => {
+    Axios.put(`http://localhost:8080/locations/${id}`, { 
+
+      ort: ort,
+      pLZ: pLZ,
+      strasse: strasse,
+      hausnummer: hausnummer,
+
+     }).then(
+      (response) => {
+        setLocationList(
+          locationList.map((val) => {
+            return val.id === id
+              ? {
+                  //id: val.id,
+                  ort: ort,
+                  pLZ: pLZ,
+                  strasse: strasse,
+                  hausnummer: hausnummer,                  
+                }
+              : val;
+          })
+        );
+      }
+    );
+  };
+
   return (
     <div className="App">
       <div className="information">
+      <h2 style = {{color: "lightblue"}}>Add a new Location</h2>
         <label>Ort:</label>
         <input
           type="text"
           onChange={(event) => {
             setOrt(event.target.value);
           }}
+         
         />
-        <label>PLZ:</label>
+         <br></br>
+        <label>Plz:</label>
         <input
           type="number"
           onChange={(event) => {
             setPLZ(event.target.value);
           }}
         />
-        <label>Strasse:</label>
+         <br></br>
+        <label>Str: </label>
         <input
           type="text"
           onChange={(event) => {
             setStrasse(event.target.value);
           }}
         />
-        <label>Hausnummer:</label>
+         <br></br>
+        <label>Hnr:</label>
         <input
           type="text"
           onChange={(event) => {
             setHausnummer(event.target.value);
           }}
         />
-        
+         <br></br>
         <button onClick={addLocation}>Add Location</button>
-      </div>
-      <div className="location">
-        <button onClick={getLocations}>Show Location</button>
 
-        {locationList.map((val, key) => {
+         <br></br> <br></br> <br></br>
+      </div>
+      <div className="locations">
+        <button onClick={getLocations}>Show all Locations</button>
+         {locationList.map((val, key) => {
           return (
-            <div className="location">
+            <div className="locations">
               <div>
-                <h3>Ort: {val.ort}</h3>
-                <h3>PLZ: {val.pLZ}</h3>
-                <h3>Strasse: {val.strasse}</h3>
-                <h3>Hausnummer: {val.hausnummer}</h3>
-                
+             
+                <p>Ort: {val.ort}</p>
+                <p>PLZ: {val.pLZ}</p>
+                <p>Strasse: {val.strasse}</p>
+                <p>Hausnummer: {val.hausnummer}</p>
+               
               </div>
+              
               <div>
+              
                 <input
                   type="text"
-                  placeholder="2000..."
+                  placeholder="Ort"
                   onChange={(event) => {
-                    setNewLocation(event.target.value);
+                    setOrt(event.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="PLZ"
+                  onChange={(event) => {
+                    setPLZ(event.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="Strasse"
+                  onChange={(event) => {
+                    setStrasse(event.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="Hausnummer"
+                  onChange={(event) => {
+                    setHausnummer(event.target.value);
                   }}
                 />
                 <button
                   onClick={() => {
                     updateLocation(val.id);
+                    alert("Die Änderung der Location wurde vorgenommen")
                   }}
                 >
                   {" "}
@@ -142,6 +179,7 @@ function Loc() {
                 <button
                   onClick={() => {
                     deleteLocation(val.id);
+                    alert("Die Location wurde gelöscht")
                   }}
                 >
                   Delete
